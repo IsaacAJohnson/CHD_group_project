@@ -1,2 +1,2 @@
 # CHD_group_project
-### Hans Lehndorff, Isaac Johnson, and Jesse Debolt
+### Hans Lehndorff, Isaac Johnson, and Jesse DeBolt
