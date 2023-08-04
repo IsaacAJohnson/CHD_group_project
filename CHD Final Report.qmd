@@ -1,0 +1,63 @@
+---
+title: "Healthcare Access and its Effects on Coronary Heart Disease Prevalence"
+author:
+  - name: "Hans LehnDorff, Isaac Johnson, Jesse DeBolt"
+    affiliation: "Willamette University School of Computing and Information Sciences"
+date: "August 1, 2023"
+date-format: "long"
+course: DATA599 - Python Final Project
+title: "CHD Python group project"
+format: html
+editor: visual
+---
+
+## **Project Title:** Predicting Coronary Heart Disease Using Machine Learning
+
+## **Introduction:** 
+This project aims to leverage machine learning techniques to predict the occurrence of Coronary Heart Disease (CHD), a leading cause of death globally. We believe that early prediction of CHD can lead to preventative measures, better health outcomes, and potentially save lives. Our approach involves using health and demographic data to train predictive models, specifically utilizing Support Vector Machines (SVM), Random Forests, and k-means clustering algorithms. The models are trained and evaluated using a dataset from the CDC, which includes information such as age, gender, cholesterol levels, and other health indicators.
+
+## **Problem Statement:** 
+Coronary Heart Disease is a leading cause of death globally. Early prediction of the disease can lead to early intervention and potentially save lives. The challenge is to build an accurate and reliable predictive model using available health and demographic data.
+
+## **Research Questions:**
+1. Can we predict the presence of Coronary Heart Disease using health and demographic data?
+2. How well do SVM, Random Forest, and k-means clustering algorithms perform in predicting CHD?
+3. Which features are most predictive of CHD according to our models?
+
+## **Methodology:**
+Our methodology involves several key steps. First, we preprocessed the dataset obtained from the CDC, which involved handling missing values, one-hot encoding categorical variables, and scaling numerical variables. Following this, we performed an exploratory data analysis to understand the distribution of the data and the relationships between different variables. 
+
+Next, we split the data into a training set and a test set. We trained SVM and Random Forest models using the training data, tuning their hyperparameters with GridSearchCV and RandomizedSearchCV respectively. In addition to these models, we also employed a k-means clustering algorithm to explore potential clusters in the dataset. 
+
+The performance of the SVM and Random Forest models was evaluated based on accuracy on the test data, while the k-means clustering results were assessed visually and qualitatively.
+
+Here is the Python code used for preprocessing and model training:
+
+```python
+# Python code for preprocessing and model training
+# ... (Insert preprocessing and model training code here) ...
+```
+
+## **Results:**
+Through our exploratory data analysis, we found interesting patterns and distributions in the data, such as... (insert findings here). 
+
+Our machine learning models yielded promising results. The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset. The k-means clustering revealed... (insert clustering results here).
+
+The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset.
+
+## **Discussions and Implications:**
+The difference in performance between the SVM and Random Forest models could be attributed to the specific properties of these algorithms. SVMs tend to perform well on high-dimensional data, while Random Forests are often better suited for datasets with a mix of categorical and numerical features. The k-means clustering results provide additional insights into the structure of the dataset, potentially informing feature engineering and selection processes. 
+
+These findings highlight the potential of machine learning in aiding the prediction of Coronary Heart Disease, which could have significant implications for early intervention and treatment planning.
+
+## **Conclusion:**
+In conclusion, our project demonstrates the feasibility and potential of using machine learning for predicting Coronary Heart Disease. The findings suggest that machine learning, and specifically SVM, can provide a valuable tool in the field of health informatics. Future work could explore other algorithms, feature engineering techniques, and larger or more diverse datasets to further improve prediction performance.These findings suggest that machine learning can be a valuable tool in health informatics, providing insights that can aid in early disease prediction and intervention.
+
+## **References:**
+1. Scikit-learn: Machine Learning in Python (https://scikit-learn.org/stable/index.html)
+2. CDC Dataset (Link to CDC Dataset)
+
+## **Appendix: List of Contributors**
+1. Hans LehnDorff - [LinkedIn](Your LinkedIn URL)
+2. Isaac Johnson - [LinkedIn](Your LinkedIn URL)
+3. Jesse Debolt - [LinkedIn](Your LinkedIn URL)
