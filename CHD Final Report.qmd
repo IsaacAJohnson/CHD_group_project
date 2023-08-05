@@ -8,6 +8,7 @@ date-format: "long"
 course: DATA599 - Python Final Project
 format: html
 editor: visual
+embed-resources: true
 ---
 
 ## **Project Title:** Predicting Coronary Heart Disease Using Machine Learning
