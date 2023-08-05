@@ -1,63 +1,621 @@
 ---
 title: "Healthcare Access and its Effects on Coronary Heart Disease Prevalence"
 author:
-  - name: "Hans LehnDorff, Isaac Johnson, Jesse DeBolt"
+  - name: "Hans Lehndorff, Isaac Johnson, Jesse DeBolt"
     affiliation: "Willamette University School of Computing and Information Sciences"
 date: "August 1, 2023"
 date-format: "long"
 course: DATA599 - Python Final Project
-title: "CHD Python group project"
 format: html
 editor: visual
 ---
 
 ## **Project Title:** Predicting Coronary Heart Disease Using Machine Learning
 
-## **Introduction:** 
+## **Introduction:**
+
 This project aims to leverage machine learning techniques to predict the occurrence of Coronary Heart Disease (CHD), a leading cause of death globally. We believe that early prediction of CHD can lead to preventative measures, better health outcomes, and potentially save lives. Our approach involves using health and demographic data to train predictive models, specifically utilizing Support Vector Machines (SVM), Random Forests, and k-means clustering algorithms. The models are trained and evaluated using a dataset from the CDC, which includes information such as age, gender, cholesterol levels, and other health indicators.
 
-## **Problem Statement:** 
+## **Problem Statement:**
+
 Coronary Heart Disease is a leading cause of death globally. Early prediction of the disease can lead to early intervention and potentially save lives. The challenge is to build an accurate and reliable predictive model using available health and demographic data.
 
 ## **Research Questions:**
-1. Can we predict the presence of Coronary Heart Disease using health and demographic data?
-2. How well do SVM, Random Forest, and k-means clustering algorithms perform in predicting CHD?
-3. Which features are most predictive of CHD according to our models?
+
+1.  Can we predict the presence of Coronary Heart Disease using health and demographic data?
+2.  How well do SVM, Random Forest, and k-means clustering algorithms perform in predicting CHD?
+3.  Which features are most predictive of CHD according to our models?
 
 ## **Methodology:**
-Our methodology involves several key steps. First, we preprocessed the dataset obtained from the CDC, which involved handling missing values, one-hot encoding categorical variables, and scaling numerical variables. Following this, we performed an exploratory data analysis to understand the distribution of the data and the relationships between different variables. 
 
-Next, we split the data into a training set and a test set. We trained SVM and Random Forest models using the training data, tuning their hyperparameters with GridSearchCV and RandomizedSearchCV respectively. In addition to these models, we also employed a k-means clustering algorithm to explore potential clusters in the dataset. 
+Our methodology involves several key steps. First, we preprocessed the dataset obtained from the CDC, which involved handling missing values, one-hot encoding categorical variables, and scaling numerical variables.
+
+```{python}
+#Import needed libraries
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+import warnings
+
+warnings.filterwarnings('ignore')
+
+#Importing data
+cdc = pd.read_csv('data/CDC_for_python.csv')
+cdc = cdc.loc[cdc.CHD > 0]
+
+#View data structure
+cdc.shape
+
+#### Data cleaning ####
+cdc = cdc[~cdc['display_name'].str.contains(r'\(AS\)|\(GU\)|\(MP\)|\(PR\)|\(County Equivalent\)')]
+
+# Separate the 'display_name' column
+cdc[['county', 'state']] = cdc['display_name'].str.extract(r'\"(.+), \((.+)\)\"', expand=True)
+
+# Remove the original column
+cdc = cdc.drop(['display_name'], axis=1)
+
+#change rural/urban
+# 1 = Large central metro -> Large_Urban
+# 2 = Large fringe metro -> LargeFringe_Urban
+# 3 = Medium/small metro -> MediumSmall_Urban
+# 4 = Nonmetro -> Rural
+
+# Replace values in 'UrbanRural' column
+cdc['UrbanRural'] = cdc['UrbanRural'].replace({1: 'Large_Urban', 2: 'LargeFringe_Urban', 3: 'MediumSmall_Urban', 4: 'Rural'})
+
+# Replace -1 with NaN
+cdc = cdc.replace(-1, np.nan)
+
+# Display column names
+print(cdc.columns)
+
+# Show unique values in 'UrbanRural'
+print(cdc['UrbanRural'].unique())
+
+# Create a subset where 'UrbanRural' is NaN, an empty string, or 'NA'
+rural_query = cdc[cdc['UrbanRural'].isin([pd.np.nan, '', 'NA'])]
+
+# Display the first 20 rows of this subset
+rural_query.head(20)
+
+# Find and insert where county is 'Kusilvak' based on Wikipedia data.
+cdc.loc[cdc['county'].str.contains('Kusilvak', na=False), 'UrbanRural'] = "Rural"
+
+# Display unique values in the 'UrbanRural' column
+print(cdc['UrbanRural'].unique())
+
+# Double check for any NAs in Rural/Urban
+rural_query = cdc[cdc['UrbanRural'].isin([None, "", "NA"])].head(20)
+rural_query
+
+# Convert fips to string
+cdc['fips'] = cdc['fips'].astype(str)
+
+# Inserting Parks missing value
+cdc.loc[cdc['county'].str.contains('Kusilvak', na=False), 'Parks'] = 66
+
+# Total number of missing values in dataset
+total_na = cdc.isnull().sum().sum()
+print(total_na)
+
+# Total number of missing values in each column
+column_na = cdc.isnull().sum()
+print(column_na)
+
+# Total number of missing values in each row
+cdc['count_na'] = cdc.isnull().sum(axis=1)
+
+# Sort by 'count_na'
+cdc = cdc.sort_values(by='count_na', ascending=False)
+
+# Remove those that have more than 8 NAs in that row
+cdc = cdc[cdc['count_na'] <= 8]
+
+# Remove 'count_na' column
+cdc = cdc.drop('count_na', axis=1)
+
+## Inserting values for missing data for NJ
+# bpmUse
+cdc.loc[cdc['state'].str.contains('NJ', na=False), 'bpmUse'] = 71.71
+
+# CholScreen
+cdc.loc[cdc['state'].str.contains('NJ', na=False), 'CholScreen'] = 79.43
+
+# HighBP
+cdc.loc[cdc['state'].str.contains('NJ', na=False), 'HighBP'] = 33.7
+
+# Diabetes
+cdc.loc[cdc['state'].str.contains('NJ', na=False), 'Diabetes'] = 17.4
+
+# HighChol
+cdc.loc[cdc['state'].str.contains('NJ', na=False), 'HighChol'] = 32.41
+
+# Obesity
+cdc.loc[cdc['state'].str.contains('NJ', na=False), 'Obesity'] = 33.59
+
+## Inserting values for missing values in Median Home Value
+cdc.loc[cdc['fips'].str.contains('48261', na=False), 'MedHomeValue'] = 42550
+cdc.loc[cdc['fips'].str.contains('48301', na=False), 'MedHomeValue'] = 38143
+cdc.loc[cdc['fips'].str.contains('46017', na=False), 'MedHomeValue'] = 101393
+cdc.loc[cdc['fips'].str.contains('46095', na=False), 'MedHomeValue'] = 60537
+
+## Inserting missing values for PCP and Cardio Phys
+# Read in dataset with values for merging
+pcp_cardio_count = pd.read_csv("data/pcp_cardio_count.csv")
+
+# Convert the 'COUNTY' column to string
+pcp_cardio_count['COUNTY'] = pcp_cardio_count['COUNTY'].astype(str)
+
+# Joining count data frame to the cdc data frame
+cdc = cdc.merge(pcp_cardio_count, left_on='fips', right_on='COUNTY', how='left')
+
+# Use fillna to replace NAs in PCP and CardioPhys
+cdc['pcp'] = cdc['pcp'].fillna(cdc['PrimaryCarePhys'])
+cdc['CardioPhys'] = cdc['CardioPhys'].fillna(cdc['cardio'])
+
+# Remove the temporary columns
+cdc = cdc.drop(['PrimaryCarePhys', 'cardio', 'COUNTY'], axis=1)
+
+# Check DataFrame for missing or NA values, but only display columns with missing values
+missing_values = cdc.isnull().sum()
+missing_values = missing_values[missing_values != 0]
+print(missing_values)
+
+#### Data Engineering ####
+#Impute for missing values
+from sklearn.impute import SimpleImputer
+
+# Specify the columns you want to impute
+columns_to_impute = ['CholMedNonAdhear', 'CholMedElegible', 'cruParticipate', 'CardioPhys', 'PhysInactivity', 'AirQuality', 'pcp']
+
+# Subset the DataFrame to only these columns
+subset_cdc = cdc[columns_to_impute]
+
+# Create an imputer object
+imputer = SimpleImputer(strategy='mean')
+
+# Fit the imputer to the data and transform the data
+imputed_data = imputer.fit_transform(subset_cdc)
+
+# Convert the result back to a DataFrame
+imputed_data = pd.DataFrame(imputed_data, columns=subset_cdc.columns)
+
+# Replace the original columns in the DataFrame with the imputed data
+cdc[columns_to_impute] = imputed_data
+
+cdc['IsRural'] = cdc['UrbanRural'] == 'Rural'
+
+# Checking status of new column
+print(cdc.IsRural.unique())
+print(cdc['IsRural'].dtype)
+
+#Create classes for CHD prevalence
+# Define the boundaries for the quantiles
+quantiles = cdc['CHD'].quantile([0.33, 0.66]).values
+
+# Function to classify 'CHD' values
+def classify_chd(value):
+    if value <= quantiles[0]:
+        return 'Low'
+    elif value <= quantiles[1]:
+        return 'Medium'
+    else:
+        return 'High'
+
+# Add 'CHD_Class' column
+cdc['CHD_Class'] = cdc['CHD'].apply(classify_chd)
+
+# Print the dataframe
+print(cdc)
+
+# Define the regions
+regions = {
+    'Northeast': ['CT', 'ME', 'MA', 'NH', 'RI', 'VT', 'NJ', 'NY', 'PA'],
+    'Midwest': ['IL', 'IN', 'MI', 'OH', 'WI', 'IA', 'KS', 'MN', 'MO', 'NE', 'ND', 'SD'],
+    'South': ['DE', 'FL', 'GA', 'MD', 'NC', 'SC', 'VA', 'DC', 'WV', 'AL', 'KY', 'MS', 'TN', 'AR', 'LA', 'OK', 'TX'],
+    'West': ['AZ', 'CO', 'ID', 'MT', 'NV', 'NM', 'UT', 'WY', 'AK', 'CA', 'HI', 'OR', 'WA']
+}
+
+# Function to assign region based on state
+def assign_region(state):
+    for region, states in regions.items():
+        if state in states:
+            return region
+    return 'Other'
+
+# Add 'region' column
+cdc['region'] = cdc['state'].apply(assign_region)
+
+# Print the updated DataFrame
+print(cdc)
+```
+
+Following this, we performed an exploratory data analysis to understand the distribution of the data and the relationships between different variables.
+
+```{python}
+chd=cdc
+
+#Scatter plot for a variety of variables against variable of interest
+# Create a 3x4 grid of subplots (12 subplots in total)
+num_rows = 3
+num_cols = 4
+
+# Adjust the figure size according to your preference
+fig, axes = plt.subplots(num_rows, num_cols, figsize=(10, 8))
+
+# Flatten the axes array for easier iteration
+axes = axes.ravel()
+
+col_list = ('Stroke', 'Diabetes', 'Smoker', 'PhysInactivity',
+            'HealthIns', 'HospCR', 'Pharmacies', 'AirQuality',
+            'Poverty', 'MedHouseIncome', 'UrbanRural', 'Parks'
+            )
+
+# Plot each independent variable against the dependent variable in each subplot
+for i, ax in enumerate(axes):
+    ax.scatter(chd[col_list[i]], chd.CHD, s=1, alpha=0.1)
+    ax.set_title(f"{col_list[i]}")
+    ax.set_ylabel("CHD")
+
+# Adjust spacing between subplots for better visualization
+plt.tight_layout()
+
+# Display the plot
+plt.show()
+
+import matplotlib.pyplot as plt2
+
+# Create a heatmap with automatically binned continuous variables and average Z value in each bin
+def create_heatmap(x_data, y_data, z_data, x_label, y_label, z_label):
+    # Combine the data into a DataFrame
+    data = pd.DataFrame({'X': x_data, 'Y': y_data, 'Z': z_data})
+
+    # Determine the number of bins (you can adjust this as needed)
+    num_bins = 20
+
+    # Use pandas cut function to create bins for X and Y variables
+    data['X_bin'] = pd.cut(data['X'], bins=num_bins, labels=False)
+    data['Y_bin'] = pd.cut(data['Y'], bins=num_bins, labels=False)
+
+    # Group the data by the bins and calculate the average Z value in each bin
+    heatmap_data = data.groupby(['X_bin', 'Y_bin'])['Z'].mean().unstack()
+
+    # Create the heatmap using a separate figure
+    plt2.figure(figsize=(8, 6))
+    sns.heatmap(heatmap_data, cmap='viridis', annot=False, fmt=".2f", cbar_kws={'label': z_label})
+    plt2.xlabel(x_label)
+    plt2.ylabel(y_label)
+    plt2.title(f'Heatmap of {z_label} by {x_label} and {y_label}')
+    plt2.show()
+
+create_heatmap(chd.PhysInactivity, chd.Poverty, chd.CHD, 'PhysInactivity', 'Poverty', 'Avg. CHD')
+```
+
+Next, we split the data into a training set and a test set. We trained SVM and Random Forest models using the training data, tuning their hyperparameters with GridSearchCV and RandomizedSearchCV respectively. In addition to these models, we also employed a k-means clustering algorithm to explore potential clusters in the dataset.
+
+Random Forest:
+
+```{python}
+from sklearn.model_selection import train_test_split
+from scipy.stats import randint
+from sklearn.preprocessing import OneHotEncoder, StandardScaler
+from sklearn.model_selection import GridSearchCV, RandomizedSearchCV
+from sklearn.ensemble import RandomForestClassifier
+
+chd = pd.read_csv("data/CDC_python_clean.csv")
+
+### Drop unneeded columns
+columns_to_drop = ['fips', 'CHD', 'county','UrbanRural']
+chd = chd.drop(columns=columns_to_drop)
+
+### Establish X and y
+X = chd.drop(columns=['CHD_Class'])
+y = chd['CHD_Class']
+
+### Additional preprocessing
+# Get the character columns that need to be dummy encoded
+char_cols = X.select_dtypes(include=['object']).columns
+
+# Create a one-hot encoder and apply it to the character columns
+encoder = OneHotEncoder()
+X = pd.get_dummies(X, columns=char_cols, drop_first=True)
+
+# Scale and Center
+numeric_columns = X.select_dtypes(include=['float64', 'int64']).columns
+scaler = StandardScaler()
+X[numeric_columns] = scaler.fit_transform(X[numeric_columns])
+
+### Split data
+Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, random_state=42)
+
+### Establish Parameters
+rf_classifier = RandomForestClassifier()
+
+param_dist = {
+    'n_estimators': randint(1, 1000),
+    'max_depth': randint(1, 50),
+    'min_samples_split': randint(2, 10),
+    'min_samples_leaf': randint(1, 10),
+    'bootstrap': [True, False],
+    'criterion': ['gini', 'entropy']
+}
+
+### Additional Parameters
+random_search = RandomizedSearchCV(
+    estimator=rf_classifier,
+    param_distributions=param_dist,
+    n_iter=50,  # Adjust the number of iterations as needed
+    cv=5,        # Number of cross-validation folds
+    n_jobs=-1,   # Use all available CPU cores for parallel processing
+    random_state=42,
+    verbose=True
+)
+
+#Model
+random_search.fit(Xtrain, ytrain)
+
+### Store best model
+best_rf_classifier = random_search.best_estimator_
+
+accuracy = best_rf_classifier.score(Xtest, ytest)
+print("Accuracy of the Random Forest Classifier: {:.2f}%".format(accuracy * 100))
+
+#Feature Importance
+feature_importance_df = pd.DataFrame({'Feature': X.columns, 'Importance': best_rf_classifier.feature_importances_})
+
+top_20_features = feature_importance_df.nlargest(50, 'Importance')
+
+import matplotlib.pyplot as plt
+
+# Create a horizontal bar plot with rotated axes
+plt.figure(figsize=(8, 12))
+plt.barh(top_20_features['Feature'], top_20_features['Importance'], color='darkgreen')
+plt.gca().invert_yaxis()  # Invert the y-axis to show features at the top
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.title('Top 50 Variable Importance in Random Forest Classifier')
+plt.tight_layout()
+plt.show()
+
+
+from sklearn.metrics import confusion_matrix
+
+ypred = best_rf_classifier.predict(Xtest)
+
+conf_matrix = confusion_matrix(ytest, ypred)
+
+class_names = ['low', 'medium', 'high']
+conf_matrix_df = pd.DataFrame(conf_matrix, index=class_names, columns=class_names)
+
+## Confussion matrix
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Set the labels for the heatmap
+labels = ['High','Medium','Low']
+
+# Create the heatmap
+plt.figure(figsize=(6, 4))
+sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues", xticklabels=labels, yticklabels=labels)
+plt.xlabel('Predicted')
+plt.ylabel('True')
+plt.title('Confusion Matrix Heatmap')
+plt.show()
+
+### Split Urban Rural and Redo Analysis
+def get_variable_importance(data):
+    # Separate the target variable 'CHD_Class' from the features
+    X = data.drop(columns=['CHD_Class'])
+    y = data['CHD_Class']
+    
+    # Get the character columns that need to be dummy encoded
+    char_cols = X.select_dtypes(include=['object']).columns
+
+    # Create a one-hot encoder and apply it to the character columns
+    encoder = OneHotEncoder()
+    X = pd.get_dummies(X, columns=char_cols, drop_first=True)
+
+    Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, random_state=42)
+    
+    rf_classifier = RandomForestClassifier()
+
+    param_dist = {
+        'n_estimators': randint(1, 1000),
+        'max_depth': randint(1, 50),
+        'min_samples_split': randint(2, 10),
+        'min_samples_leaf': randint(1, 10),
+        'bootstrap': [True, False],
+        'criterion': ['gini', 'entropy']
+    }
+    
+    
+    random_search = RandomizedSearchCV(
+        estimator=rf_classifier,
+        param_distributions=param_dist,
+        n_iter=50,  # Adjust the number of iterations as needed
+        cv=5,        # Number of cross-validation folds
+        n_jobs=-1,   # Use all available CPU cores for parallel processing
+        random_state=42,
+        verbose=True
+    )
+
+    random_search.fit(Xtrain, ytrain)
+    
+    best_rf_classifier = random_search.best_estimator_
+    
+    accuracy = best_rf_classifier.score(Xtest, ytest)
+    print("Accuracy of the Random Forest Classifier: {:.2f}%".format(accuracy * 100))
+    
+    # Create a DataFrame to store the feature names and their corresponding importance scores
+    feature_importance_df = pd.DataFrame({'Feature': X.columns, 'Importance': best_rf_classifier.feature_importances_})
+
+    # Sort the DataFrame in descending order based on importance
+    feature_importance_df.sort_values(by='Importance', ascending=False, inplace=True)
+
+    return feature_importance_df
+  
+# Create separate datasets for IsRural=True and IsRural=False
+data_rural = chd[chd['IsRural'] == True]
+data_non_rural = chd[chd['IsRural'] == False]
+
+# Get variable importance for IsRural=True
+result_rural = get_variable_importance(data_rural)
+
+# Get variable importance for IsRural=False
+result_non_rural = get_variable_importance(data_non_rural)
+
+# Add a new column to each DataFrame to indicate the dataset (IsRural=True or IsRural=False)
+result_rural['Dataset'] = 'IsRural=True'
+result_non_rural['Dataset'] = 'IsRural=False'
+
+# Concatenate the two DataFrames into a single DataFrame
+combined_result = pd.concat([result_rural, result_non_rural,], ignore_index=True)
+
+combined_result = combined_result[combined_result['Importance'] > 0.01]
+
+# Create a bar plot with rotated axes
+plt.figure(figsize=(10, 10))
+sns.barplot(x='Importance', y='Feature', hue='Dataset', data=combined_result)
+plt.xlabel('Importance')
+plt.ylabel('Feature')
+plt.title('Variable Importance Comparison between IsRural=True and IsRural=False')
+plt.legend(title='Dataset', loc='lower right')
+plt.tight_layout()
+plt.show()
+
+
+
+```
+
+K-Means:
+
+```{python}
+from sklearn.cluster import KMeans
+from sklearn.preprocessing import StandardScaler
+
+df = pd.read_csv('data/CDC_python_clean.csv')
+df = df.loc[df.CHD > 0]
+
+### Selecting columns
+
+from sklearn.preprocessing import StandardScaler
+
+# Select numerical columns
+numerical_cols = df.select_dtypes(include=['float64', 'int64']).columns
+
+# Remove the 'fips' column as it's a unique identifier, not a meaningful numerical feature
+numerical_cols = numerical_cols.drop('fips')
+
+# Subset the dataframe on these columns
+df_numerical = df[numerical_cols]
+
+# Normalize the data
+scaler = StandardScaler()
+df_normalized = pd.DataFrame(scaler.fit_transform(df_numerical), columns=df_numerical.columns)
+
+df_normalized.head()
+
+### Determining how many clusters to use
+
+from sklearn.cluster import KMeans
+import matplotlib.pyplot as plt
+
+# Set a range of clusters to try out
+clusters_range = range(2, 15)
+
+# List to hold the inertia for each number of clusters
+inertias = []
+
+# Perform K-means for each number of clusters and store the inertia
+for num_clusters in clusters_range:
+    kmeans = KMeans(n_clusters=num_clusters, random_state=42)
+    kmeans.fit(df_normalized)
+    inertias.append(kmeans.inertia_)
+
+# Plot the elbow plot
+plt.figure(figsize=(8, 6))
+plt.plot(clusters_range, inertias, 'bo-')
+plt.xlabel('Number of Clusters')
+plt.ylabel('Inertia')
+plt.title('Elbow Method For Optimal Number of Clusters')
+plt.grid(True)
+plt.show()
+
+# The Elbow Method plot shows the inertia (sum of squared distances to the nearest cluster center) as a function of the number of clusters. From the plot, it's not entirely clear where the "elbow" is, as there isn't a sharp bend. This often happens with real-world data, which may not have well-separated clusters. However, we can see that the inertia starts to decrease at a slower rate from around 4 clusters onwards. Therefore, we'll choose 4 as the number of clusters for our K-means clustering.
+
+# Perform K-means clustering with 4 clusters
+kmeans = KMeans(n_clusters=4, random_state=42)
+kmeans.fit(df_normalized)
+
+# Get the cluster assignments for each data point
+cluster_assignments = kmeans.labels_
+
+# Add the cluster assignments back to the original DataFrame
+df['Cluster'] = cluster_assignments
+
+df.head()
+
+# Calculate the mean values of our features within each cluster
+cluster_characteristics = df.groupby('Cluster').mean()
+cluster_characteristics.transpose()
+
+from sklearn.metrics import silhouette_score
+
+# Calculate the silhouette score
+sil_score = silhouette_score(df_normalized, cluster_assignments)
+
+sil_score
+
+# The silhouette score for our clustering is approximately 0.167. This score is relatively low, indicating that the clusters are not very clearly separated and that the samples within each cluster are not extremely dense. This is not surprising considering that we have used a high-dimensional dataset with many features, which can make it challenging to form distinct clusters.
+```
+
+SVM:
+
+```{python}
+
+```
 
 The performance of the SVM and Random Forest models was evaluated based on accuracy on the test data, while the k-means clustering results were assessed visually and qualitatively.
 
+```{python}
+accuracy = best_rf_classifier.score(Xtest, ytest)
+print("Accuracy of the Random Forest Classifier: {:.2f}%".format(accuracy * 100))
+```
+
 Here is the Python code used for preprocessing and model training:
 
-```python
+``` python
 # Python code for preprocessing and model training
 # ... (Insert preprocessing and model training code here) ...
 ```
 
 ## **Results:**
-Through our exploratory data analysis, we found interesting patterns and distributions in the data, such as... (insert findings here). 
+
+Through our exploratory data analysis, we found interesting patterns and distributions in the data, such as... (insert findings here).
 
 Our machine learning models yielded promising results. The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset. The k-means clustering revealed... (insert clustering results here).
 
 The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset.
 
 ## **Discussions and Implications:**
-The difference in performance between the SVM and Random Forest models could be attributed to the specific properties of these algorithms. SVMs tend to perform well on high-dimensional data, while Random Forests are often better suited for datasets with a mix of categorical and numerical features. The k-means clustering results provide additional insights into the structure of the dataset, potentially informing feature engineering and selection processes. 
+
+The difference in performance between the SVM and Random Forest models could be attributed to the specific properties of these algorithms. SVMs tend to perform well on high-dimensional data, while Random Forests are often better suited for datasets with a mix of categorical and numerical features. The k-means clustering results provide additional insights into the structure of the dataset, potentially informing feature engineering and selection processes.
 
 These findings highlight the potential of machine learning in aiding the prediction of Coronary Heart Disease, which could have significant implications for early intervention and treatment planning.
 
 ## **Conclusion:**
+
 In conclusion, our project demonstrates the feasibility and potential of using machine learning for predicting Coronary Heart Disease. The findings suggest that machine learning, and specifically SVM, can provide a valuable tool in the field of health informatics. Future work could explore other algorithms, feature engineering techniques, and larger or more diverse datasets to further improve prediction performance.These findings suggest that machine learning can be a valuable tool in health informatics, providing insights that can aid in early disease prediction and intervention.
 
 ## **References:**
-1. Scikit-learn: Machine Learning in Python (https://scikit-learn.org/stable/index.html)
-2. CDC Dataset (Link to CDC Dataset)
+
+1.  Scikit-learn: Machine Learning in Python (https://scikit-learn.org/stable/index.html)
+2.  CDC Dataset (Link to CDC Dataset)
 
 ## **Appendix: List of Contributors**
-1. Hans LehnDorff - [LinkedIn](Your LinkedIn URL)
-2. Isaac Johnson - [LinkedIn](Your LinkedIn URL)
-3. Jesse Debolt - [LinkedIn](Your LinkedIn URL)
+
+1.  Hans LehnDorff - [LinkedIn](Your%20LinkedIn%20URL)
+2.  Isaac Johnson - [LinkedIn](Your%20LinkedIn%20URL)
+3.  Jesse Debolt - [LinkedIn](Your%20LinkedIn%20URL)

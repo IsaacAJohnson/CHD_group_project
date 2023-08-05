@@ -1,0 +1,1164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.353">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Hans Lehndorff, Isaac Johnson, Jesse DeBolt">
+<meta name="dcterms.date" content="2023-08-01">
+
+<title>Healthcare Access and its Effects on Coronary Heart Disease Prevalence</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="CHD Final Report_files/libs/clipboard/clipboard.min.js"></script>
+<script src="CHD Final Report_files/libs/quarto-html/quarto.js"></script>
+<script src="CHD Final Report_files/libs/quarto-html/popper.min.js"></script>
+<script src="CHD Final Report_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="CHD Final Report_files/libs/quarto-html/anchor.min.js"></script>
+<link href="CHD Final Report_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="CHD Final Report_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="CHD Final Report_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="CHD Final Report_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="CHD Final Report_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Healthcare Access and its Effects on Coronary Heart Disease Prevalence</h1>
+</div>
+
+
+<div class="quarto-title-meta-author">
+  <div class="quarto-title-meta-heading">Author</div>
+  <div class="quarto-title-meta-heading">Affiliation</div>
+  
+    <div class="quarto-title-meta-contents">
+    <p class="author">Hans Lehndorff, Isaac Johnson, Jesse DeBolt </p>
+  </div>
+    <div class="quarto-title-meta-contents">
+        <p class="affiliation">
+            Willamette University School of Computing and Information Sciences
+          </p>
+      </div>
+    </div>
+
+<div class="quarto-title-meta">
+
+      
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 1, 2023</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+</header>
+
+<section id="project-title-predicting-coronary-heart-disease-using-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="project-title-predicting-coronary-heart-disease-using-machine-learning"><strong>Project Title:</strong> Predicting Coronary Heart Disease Using Machine Learning</h2>
+</section>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction"><strong>Introduction:</strong></h2>
+<p>This project aims to leverage machine learning techniques to predict the occurrence of Coronary Heart Disease (CHD), a leading cause of death globally. We believe that early prediction of CHD can lead to preventative measures, better health outcomes, and potentially save lives. Our approach involves using health and demographic data to train predictive models, specifically utilizing Support Vector Machines (SVM), Random Forests, and k-means clustering algorithms. The models are trained and evaluated using a dataset from the CDC, which includes information such as age, gender, cholesterol levels, and other health indicators.</p>
+</section>
+<section id="problem-statement" class="level2">
+<h2 class="anchored" data-anchor-id="problem-statement"><strong>Problem Statement:</strong></h2>
+<p>Coronary Heart Disease is a leading cause of death globally. Early prediction of the disease can lead to early intervention and potentially save lives. The challenge is to build an accurate and reliable predictive model using available health and demographic data.</p>
+</section>
+<section id="research-questions" class="level2">
+<h2 class="anchored" data-anchor-id="research-questions"><strong>Research Questions:</strong></h2>
+<ol type="1">
+<li>Can we predict the presence of Coronary Heart Disease using health and demographic data?</li>
+<li>How well do SVM, Random Forest, and k-means clustering algorithms perform in predicting CHD?</li>
+<li>Which features are most predictive of CHD according to our models?</li>
+</ol>
+</section>
+<section id="methodology" class="level2">
+<h2 class="anchored" data-anchor-id="methodology"><strong>Methodology:</strong></h2>
+<p>Our methodology involves several key steps. First, we preprocessed the dataset obtained from the CDC, which involved handling missing values, one-hot encoding categorical variables, and scaling numerical variables.</p>
+<div class="cell" data-execution_count="1">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Import needed libraries</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">#Importing data</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> pd.read_csv(<span class="st">'data/CDC_for_python.csv'</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.loc[cdc.CHD <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">#View data structure</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>cdc.shape</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">#### Data cleaning ####</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc[<span class="op">~</span>cdc[<span class="st">'display_name'</span>].<span class="bu">str</span>.contains(<span class="vs">r'\(AS\)|\(GU\)|\(MP\)|\(PR\)|\(County Equivalent\)'</span>)]</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Separate the 'display_name' column</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>cdc[[<span class="st">'county'</span>, <span class="st">'state'</span>]] <span class="op">=</span> cdc[<span class="st">'display_name'</span>].<span class="bu">str</span>.extract(<span class="vs">r'\"(.+), \((.+)\)\"'</span>, expand<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the original column</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.drop([<span class="st">'display_name'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="co">#change rural/urban</span></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="co"># 1 = Large central metro -&gt; Large_Urban</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a><span class="co"># 2 = Large fringe metro -&gt; LargeFringe_Urban</span></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 = Medium/small metro -&gt; MediumSmall_Urban</span></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="co"># 4 = Nonmetro -&gt; Rural</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace values in 'UrbanRural' column</span></span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'UrbanRural'</span>] <span class="op">=</span> cdc[<span class="st">'UrbanRural'</span>].replace({<span class="dv">1</span>: <span class="st">'Large_Urban'</span>, <span class="dv">2</span>: <span class="st">'LargeFringe_Urban'</span>, <span class="dv">3</span>: <span class="st">'MediumSmall_Urban'</span>, <span class="dv">4</span>: <span class="st">'Rural'</span>})</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace -1 with NaN</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.replace(<span class="op">-</span><span class="dv">1</span>, np.nan)</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a><span class="co"># Display column names</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc.columns)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="co"># Show unique values in 'UrbanRural'</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc[<span class="st">'UrbanRural'</span>].unique())</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a subset where 'UrbanRural' is NaN, an empty string, or 'NA'</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>rural_query <span class="op">=</span> cdc[cdc[<span class="st">'UrbanRural'</span>].isin([pd.np.nan, <span class="st">''</span>, <span class="st">'NA'</span>])]</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the first 20 rows of this subset</span></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>rural_query.head(<span class="dv">20</span>)</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="co"># Find and insert where county is 'Kusilvak' based on Wikipedia data.</span></span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'county'</span>].<span class="bu">str</span>.contains(<span class="st">'Kusilvak'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'UrbanRural'</span>] <span class="op">=</span> <span class="st">"Rural"</span></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="co"># Display unique values in the 'UrbanRural' column</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc[<span class="st">'UrbanRural'</span>].unique())</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a><span class="co"># Double check for any NAs in Rural/Urban</span></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>rural_query <span class="op">=</span> cdc[cdc[<span class="st">'UrbanRural'</span>].isin([<span class="va">None</span>, <span class="st">""</span>, <span class="st">"NA"</span>])].head(<span class="dv">20</span>)</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>rural_query</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert fips to string</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'fips'</span>] <span class="op">=</span> cdc[<span class="st">'fips'</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="co"># Inserting Parks missing value</span></span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'county'</span>].<span class="bu">str</span>.contains(<span class="st">'Kusilvak'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'Parks'</span>] <span class="op">=</span> <span class="dv">66</span></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of missing values in dataset</span></span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a>total_na <span class="op">=</span> cdc.isnull().<span class="bu">sum</span>().<span class="bu">sum</span>()</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(total_na)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of missing values in each column</span></span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a>column_na <span class="op">=</span> cdc.isnull().<span class="bu">sum</span>()</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(column_na)</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a><span class="co"># Total number of missing values in each row</span></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'count_na'</span>] <span class="op">=</span> cdc.isnull().<span class="bu">sum</span>(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="co"># Sort by 'count_na'</span></span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.sort_values(by<span class="op">=</span><span class="st">'count_na'</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove those that have more than 8 NAs in that row</span></span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc[cdc[<span class="st">'count_na'</span>] <span class="op">&lt;=</span> <span class="dv">8</span>]</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove 'count_na' column</span></span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.drop(<span class="st">'count_na'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a><span class="co">## Inserting values for missing data for NJ</span></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="co"># bpmUse</span></span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'state'</span>].<span class="bu">str</span>.contains(<span class="st">'NJ'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'bpmUse'</span>] <span class="op">=</span> <span class="fl">71.71</span></span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="co"># CholScreen</span></span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'state'</span>].<span class="bu">str</span>.contains(<span class="st">'NJ'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'CholScreen'</span>] <span class="op">=</span> <span class="fl">79.43</span></span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a><span class="co"># HighBP</span></span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'state'</span>].<span class="bu">str</span>.contains(<span class="st">'NJ'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'HighBP'</span>] <span class="op">=</span> <span class="fl">33.7</span></span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Diabetes</span></span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'state'</span>].<span class="bu">str</span>.contains(<span class="st">'NJ'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'Diabetes'</span>] <span class="op">=</span> <span class="fl">17.4</span></span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a><span class="co"># HighChol</span></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'state'</span>].<span class="bu">str</span>.contains(<span class="st">'NJ'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'HighChol'</span>] <span class="op">=</span> <span class="fl">32.41</span></span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a><span class="co"># Obesity</span></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'state'</span>].<span class="bu">str</span>.contains(<span class="st">'NJ'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'Obesity'</span>] <span class="op">=</span> <span class="fl">33.59</span></span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="co">## Inserting values for missing values in Median Home Value</span></span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'fips'</span>].<span class="bu">str</span>.contains(<span class="st">'48261'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'MedHomeValue'</span>] <span class="op">=</span> <span class="dv">42550</span></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'fips'</span>].<span class="bu">str</span>.contains(<span class="st">'48301'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'MedHomeValue'</span>] <span class="op">=</span> <span class="dv">38143</span></span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'fips'</span>].<span class="bu">str</span>.contains(<span class="st">'46017'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'MedHomeValue'</span>] <span class="op">=</span> <span class="dv">101393</span></span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a>cdc.loc[cdc[<span class="st">'fips'</span>].<span class="bu">str</span>.contains(<span class="st">'46095'</span>, na<span class="op">=</span><span class="va">False</span>), <span class="st">'MedHomeValue'</span>] <span class="op">=</span> <span class="dv">60537</span></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="co">## Inserting missing values for PCP and Cardio Phys</span></span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="co"># Read in dataset with values for merging</span></span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a>pcp_cardio_count <span class="op">=</span> pd.read_csv(<span class="st">"data/pcp_cardio_count.csv"</span>)</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the 'COUNTY' column to string</span></span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a>pcp_cardio_count[<span class="st">'COUNTY'</span>] <span class="op">=</span> pcp_cardio_count[<span class="st">'COUNTY'</span>].astype(<span class="bu">str</span>)</span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a><span class="co"># Joining count data frame to the cdc data frame</span></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.merge(pcp_cardio_count, left_on<span class="op">=</span><span class="st">'fips'</span>, right_on<span class="op">=</span><span class="st">'COUNTY'</span>, how<span class="op">=</span><span class="st">'left'</span>)</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a><span class="co"># Use fillna to replace NAs in PCP and CardioPhys</span></span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'pcp'</span>] <span class="op">=</span> cdc[<span class="st">'pcp'</span>].fillna(cdc[<span class="st">'PrimaryCarePhys'</span>])</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'CardioPhys'</span>] <span class="op">=</span> cdc[<span class="st">'CardioPhys'</span>].fillna(cdc[<span class="st">'cardio'</span>])</span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the temporary columns</span></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a>cdc <span class="op">=</span> cdc.drop([<span class="st">'PrimaryCarePhys'</span>, <span class="st">'cardio'</span>, <span class="st">'COUNTY'</span>], axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="co"># Check DataFrame for missing or NA values, but only display columns with missing values</span></span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a>missing_values <span class="op">=</span> cdc.isnull().<span class="bu">sum</span>()</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a>missing_values <span class="op">=</span> missing_values[missing_values <span class="op">!=</span> <span class="dv">0</span>]</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(missing_values)</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="co">#### Data Engineering ####</span></span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a><span class="co">#Impute for missing values</span></span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.impute <span class="im">import</span> SimpleImputer</span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="co"># Specify the columns you want to impute</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>columns_to_impute <span class="op">=</span> [<span class="st">'CholMedNonAdhear'</span>, <span class="st">'CholMedElegible'</span>, <span class="st">'cruParticipate'</span>, <span class="st">'CardioPhys'</span>, <span class="st">'PhysInactivity'</span>, <span class="st">'AirQuality'</span>, <span class="st">'pcp'</span>]</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the DataFrame to only these columns</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>subset_cdc <span class="op">=</span> cdc[columns_to_impute]</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="co"># Create an imputer object</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>imputer <span class="op">=</span> SimpleImputer(strategy<span class="op">=</span><span class="st">'mean'</span>)</span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit the imputer to the data and transform the data</span></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>imputed_data <span class="op">=</span> imputer.fit_transform(subset_cdc)</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a><span class="co"># Convert the result back to a DataFrame</span></span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>imputed_data <span class="op">=</span> pd.DataFrame(imputed_data, columns<span class="op">=</span>subset_cdc.columns)</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a><span class="co"># Replace the original columns in the DataFrame with the imputed data</span></span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>cdc[columns_to_impute] <span class="op">=</span> imputed_data</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'IsRural'</span>] <span class="op">=</span> cdc[<span class="st">'UrbanRural'</span>] <span class="op">==</span> <span class="st">'Rural'</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a><span class="co"># Checking status of new column</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc.IsRural.unique())</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc[<span class="st">'IsRural'</span>].dtype)</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a><span class="co">#Create classes for CHD prevalence</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the boundaries for the quantiles</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>quantiles <span class="op">=</span> cdc[<span class="st">'CHD'</span>].quantile([<span class="fl">0.33</span>, <span class="fl">0.66</span>]).values</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to classify 'CHD' values</span></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> classify_chd(value):</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> value <span class="op">&lt;=</span> quantiles[<span class="dv">0</span>]:</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Low'</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>    <span class="cf">elif</span> value <span class="op">&lt;=</span> quantiles[<span class="dv">1</span>]:</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'Medium'</span></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="st">'High'</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="co"># Add 'CHD_Class' column</span></span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'CHD_Class'</span>] <span class="op">=</span> cdc[<span class="st">'CHD'</span>].<span class="bu">apply</span>(classify_chd)</span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the dataframe</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc)</span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the regions</span></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>regions <span class="op">=</span> {</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Northeast'</span>: [<span class="st">'CT'</span>, <span class="st">'ME'</span>, <span class="st">'MA'</span>, <span class="st">'NH'</span>, <span class="st">'RI'</span>, <span class="st">'VT'</span>, <span class="st">'NJ'</span>, <span class="st">'NY'</span>, <span class="st">'PA'</span>],</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Midwest'</span>: [<span class="st">'IL'</span>, <span class="st">'IN'</span>, <span class="st">'MI'</span>, <span class="st">'OH'</span>, <span class="st">'WI'</span>, <span class="st">'IA'</span>, <span class="st">'KS'</span>, <span class="st">'MN'</span>, <span class="st">'MO'</span>, <span class="st">'NE'</span>, <span class="st">'ND'</span>, <span class="st">'SD'</span>],</span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>    <span class="st">'South'</span>: [<span class="st">'DE'</span>, <span class="st">'FL'</span>, <span class="st">'GA'</span>, <span class="st">'MD'</span>, <span class="st">'NC'</span>, <span class="st">'SC'</span>, <span class="st">'VA'</span>, <span class="st">'DC'</span>, <span class="st">'WV'</span>, <span class="st">'AL'</span>, <span class="st">'KY'</span>, <span class="st">'MS'</span>, <span class="st">'TN'</span>, <span class="st">'AR'</span>, <span class="st">'LA'</span>, <span class="st">'OK'</span>, <span class="st">'TX'</span>],</span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>    <span class="st">'West'</span>: [<span class="st">'AZ'</span>, <span class="st">'CO'</span>, <span class="st">'ID'</span>, <span class="st">'MT'</span>, <span class="st">'NV'</span>, <span class="st">'NM'</span>, <span class="st">'UT'</span>, <span class="st">'WY'</span>, <span class="st">'AK'</span>, <span class="st">'CA'</span>, <span class="st">'HI'</span>, <span class="st">'OR'</span>, <span class="st">'WA'</span>]</span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a><span class="co"># Function to assign region based on state</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> assign_region(state):</span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> region, states <span class="kw">in</span> regions.items():</span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>        <span class="cf">if</span> state <span class="kw">in</span> states:</span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>            <span class="cf">return</span> region</span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="st">'Other'</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a><span class="co"># Add 'region' column</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>cdc[<span class="st">'region'</span>] <span class="op">=</span> cdc[<span class="st">'state'</span>].<span class="bu">apply</span>(assign_region)</span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the updated DataFrame</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(cdc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Index(['fips', 'Age65Plus', 'AIAN', 'AIANmen', 'AIANwomen', 'ANHPI',
+       'ANHPImen', 'ANHPIwomen', 'Black', 'BlackMen', 'BlackWomen', 'Hispanic',
+       'HispanicMen', 'HispanicWomen', 'OtherRace', 'OtherRaceMen',
+       'OtherRaceWomen', 'PopAllGenders', 'PopMen', 'PopWomen', 'pop',
+       'TwoPlus', 'TwoPlusMen', 'TwoPlusWomen', 'White', 'WhiteMen',
+       'WhiteWomen', 'bpmUse', 'CholScreen', 'CholMedNonAdhear',
+       'CholMedElegible', 'cruParticipate', 'Hospitals', 'HospCIC', 'HospCR',
+       'HospED', 'Pharmacies', 'HealthIns', 'CardioPhys', 'PrimaryCarePhys',
+       'CHD', 'HighBP', 'Stroke', 'Diabetes', 'HighChol', 'Obesity',
+       'PhysInactivity', 'Smoker', 'AirQuality', 'Parks', 'Broadband',
+       'EdLessColl', 'SNAPrecipients', 'MedHomeValue', 'MedHouseIncome',
+       'Poverty', 'Unemploy', 'UrbanRural', 'county', 'state'],
+      dtype='object')
+['Rural' 'MediumSmall_Urban' nan 'Large_Urban' 'LargeFringe_Urban']
+['Rural' 'MediumSmall_Urban' 'Large_Urban' 'LargeFringe_Urban']
+3297
+fips                   0
+Age65Plus              0
+AIAN                   0
+AIANmen                0
+AIANwomen              0
+ANHPI                  0
+ANHPImen               0
+ANHPIwomen             0
+Black                  0
+BlackMen               0
+BlackWomen             0
+Hispanic               0
+HispanicMen            0
+HispanicWomen          0
+OtherRace              0
+OtherRaceMen           0
+OtherRaceWomen         0
+PopAllGenders          0
+PopMen                 0
+PopWomen               0
+pop                    0
+TwoPlus                0
+TwoPlusMen             0
+TwoPlusWomen           0
+White                  0
+WhiteMen               0
+WhiteWomen             0
+bpmUse                21
+CholScreen            21
+CholMedNonAdhear      81
+CholMedElegible      111
+cruParticipate       743
+Hospitals              0
+HospCIC                0
+HospCR                 0
+HospED                 0
+Pharmacies             0
+HealthIns              1
+CardioPhys          1965
+PrimaryCarePhys      220
+CHD                    0
+HighBP                21
+Stroke                 0
+Diabetes              21
+HighChol              21
+Obesity               21
+PhysInactivity        21
+Smoker                 0
+AirQuality            25
+Parks                  0
+Broadband              0
+EdLessColl             0
+SNAPrecipients         1
+MedHomeValue           0
+MedHouseIncome         1
+Poverty                1
+Unemploy               1
+UrbanRural             0
+county                 0
+state                  0
+dtype: int64
+CholMedNonAdhear      80
+CholMedElegible      110
+cruParticipate       742
+CardioPhys          1493
+PhysInactivity        21
+AirQuality            24
+pcp                   25
+dtype: int64
+[False  True]
+bool
+       fips  Age65Plus  AIAN  AIANmen  AIANwomen  ANHPI  ANHPImen  ANHPIwomen  \
+0     34027       17.1   446      213        233  39922     19200       20722   
+1     34025       17.7   781      508        273  26636     12508       14128   
+2     34017       12.0  2619     1539       1080  88314     44162       44152   
+3     34041       18.1   135       75         60   2178      1107        1071   
+4     34039       14.5  1425      865        560  23289     10781       12508   
+...     ...        ...   ...      ...        ...    ...       ...         ...   
+3135  13157       14.4     7        7          0    948       444         504   
+3136  13153       12.7   904      193        711   4154      1488        2666   
+3137  13139       15.0   326      187        139   3035      1267        1768   
+3138  31019       14.6    69       30         39    652       358         294   
+3139  21101       17.6    75       44         31    160        68          92   
+
+      Black  BlackMen  ...  MedHomeValue  MedHouseIncome  Poverty  Unemploy  \
+0     13116      6312  ...        462000        114000.0      4.7       5.0   
+1     33615     15605  ...        435000        104000.0      5.9       5.5   
+2     63097     29672  ...        401000         77000.0     13.1       6.8   
+3      3878      1964  ...        266000         80000.0      7.3       5.5   
+4     92839     42103  ...        379000         83000.0      9.2       6.7   
+...     ...       ...  ...           ...             ...      ...       ...   
+3135   3720      1980  ...        210000         71000.0      9.1       2.4   
+3136  35261     16097  ...        157000         69000.0     10.8       3.6   
+3137  11120      5338  ...        213000         68000.0     12.7       2.7   
+3138    369       204  ...        185000         69000.0      9.5       2.0   
+3139   2707      1288  ...        133000         55000.0     13.4       4.5   
+
+             UrbanRural     county  state    pcp  IsRural  CHD_Class  
+0     LargeFringe_Urban     Morris     NJ    1.0    False        Low  
+1     LargeFringe_Urban   Monmouth     NJ    0.8    False        Low  
+2           Large_Urban     Hudson     NJ    1.8    False        Low  
+3     MediumSmall_Urban     Warren     NJ    1.6    False        Low  
+4           Large_Urban      Union     NJ    1.5    False        Low  
+...                 ...        ...    ...    ...      ...        ...  
+3135              Rural    Jackson     GA  140.0     True        Low  
+3136  MediumSmall_Urban    Houston     GA  144.0    False        Low  
+3137  MediumSmall_Urban       Hall     GA  524.0    False        Low  
+3138              Rural    Buffalo     NE  100.0     True        Low  
+3139  MediumSmall_Urban  Henderson     KY   98.0    False     Medium  
+
+[3140 rows x 62 columns]
+       fips  Age65Plus  AIAN  AIANmen  AIANwomen  ANHPI  ANHPImen  ANHPIwomen  \
+0     34027       17.1   446      213        233  39922     19200       20722   
+1     34025       17.7   781      508        273  26636     12508       14128   
+2     34017       12.0  2619     1539       1080  88314     44162       44152   
+3     34041       18.1   135       75         60   2178      1107        1071   
+4     34039       14.5  1425      865        560  23289     10781       12508   
+...     ...        ...   ...      ...        ...    ...       ...         ...   
+3135  13157       14.4     7        7          0    948       444         504   
+3136  13153       12.7   904      193        711   4154      1488        2666   
+3137  13139       15.0   326      187        139   3035      1267        1768   
+3138  31019       14.6    69       30         39    652       358         294   
+3139  21101       17.6    75       44         31    160        68          92   
+
+      Black  BlackMen  ...  MedHouseIncome  Poverty  Unemploy  \
+0     13116      6312  ...        114000.0      4.7       5.0   
+1     33615     15605  ...        104000.0      5.9       5.5   
+2     63097     29672  ...         77000.0     13.1       6.8   
+3      3878      1964  ...         80000.0      7.3       5.5   
+4     92839     42103  ...         83000.0      9.2       6.7   
+...     ...       ...  ...             ...      ...       ...   
+3135   3720      1980  ...         71000.0      9.1       2.4   
+3136  35261     16097  ...         69000.0     10.8       3.6   
+3137  11120      5338  ...         68000.0     12.7       2.7   
+3138    369       204  ...         69000.0      9.5       2.0   
+3139   2707      1288  ...         55000.0     13.4       4.5   
+
+             UrbanRural     county  state    pcp  IsRural  CHD_Class  \
+0     LargeFringe_Urban     Morris     NJ    1.0    False        Low   
+1     LargeFringe_Urban   Monmouth     NJ    0.8    False        Low   
+2           Large_Urban     Hudson     NJ    1.8    False        Low   
+3     MediumSmall_Urban     Warren     NJ    1.6    False        Low   
+4           Large_Urban      Union     NJ    1.5    False        Low   
+...                 ...        ...    ...    ...      ...        ...   
+3135              Rural    Jackson     GA  140.0     True        Low   
+3136  MediumSmall_Urban    Houston     GA  144.0    False        Low   
+3137  MediumSmall_Urban       Hall     GA  524.0    False        Low   
+3138              Rural    Buffalo     NE  100.0     True        Low   
+3139  MediumSmall_Urban  Henderson     KY   98.0    False     Medium   
+
+         region  
+0     Northeast  
+1     Northeast  
+2     Northeast  
+3     Northeast  
+4     Northeast  
+...         ...  
+3135      South  
+3136      South  
+3137      South  
+3138    Midwest  
+3139      South  
+
+[3140 rows x 63 columns]</code></pre>
+</div>
+</div>
+<p>Following this, we performed an exploratory data analysis to understand the distribution of the data and the relationships between different variables.</p>
+<div class="cell" data-execution_count="2">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>chd<span class="op">=</span>cdc</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Scatter plot for a variety of variables against variable of interest</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a 3x4 grid of subplots (12 subplots in total)</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>num_rows <span class="op">=</span> <span class="dv">3</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>num_cols <span class="op">=</span> <span class="dv">4</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust the figure size according to your preference</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>fig, axes <span class="op">=</span> plt.subplots(num_rows, num_cols, figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">8</span>))</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Flatten the axes array for easier iteration</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>axes <span class="op">=</span> axes.ravel()</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>col_list <span class="op">=</span> (<span class="st">'Stroke'</span>, <span class="st">'Diabetes'</span>, <span class="st">'Smoker'</span>, <span class="st">'PhysInactivity'</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>            <span class="st">'HealthIns'</span>, <span class="st">'HospCR'</span>, <span class="st">'Pharmacies'</span>, <span class="st">'AirQuality'</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>            <span class="st">'Poverty'</span>, <span class="st">'MedHouseIncome'</span>, <span class="st">'UrbanRural'</span>, <span class="st">'Parks'</span></span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot each independent variable against the dependent variable in each subplot</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i, ax <span class="kw">in</span> <span class="bu">enumerate</span>(axes):</span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a>    ax.scatter(chd[col_list[i]], chd.CHD, s<span class="op">=</span><span class="dv">1</span>, alpha<span class="op">=</span><span class="fl">0.1</span>)</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>    ax.set_title(<span class="ss">f"</span><span class="sc">{</span>col_list[i]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    ax.set_ylabel(<span class="st">"CHD"</span>)</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Adjust spacing between subplots for better visualization</span></span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the plot</span></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt2</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a heatmap with automatically binned continuous variables and average Z value in each bin</span></span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> create_heatmap(x_data, y_data, z_data, x_label, y_label, z_label):</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Combine the data into a DataFrame</span></span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>    data <span class="op">=</span> pd.DataFrame({<span class="st">'X'</span>: x_data, <span class="st">'Y'</span>: y_data, <span class="st">'Z'</span>: z_data})</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Determine the number of bins (you can adjust this as needed)</span></span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    num_bins <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Use pandas cut function to create bins for X and Y variables</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'X_bin'</span>] <span class="op">=</span> pd.cut(data[<span class="st">'X'</span>], bins<span class="op">=</span>num_bins, labels<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>    data[<span class="st">'Y_bin'</span>] <span class="op">=</span> pd.cut(data[<span class="st">'Y'</span>], bins<span class="op">=</span>num_bins, labels<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Group the data by the bins and calculate the average Z value in each bin</span></span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a>    heatmap_data <span class="op">=</span> data.groupby([<span class="st">'X_bin'</span>, <span class="st">'Y_bin'</span>])[<span class="st">'Z'</span>].mean().unstack()</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the heatmap using a separate figure</span></span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a>    plt2.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a>    sns.heatmap(heatmap_data, cmap<span class="op">=</span><span class="st">'viridis'</span>, annot<span class="op">=</span><span class="va">False</span>, fmt<span class="op">=</span><span class="st">".2f"</span>, cbar_kws<span class="op">=</span>{<span class="st">'label'</span>: z_label})</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a>    plt2.xlabel(x_label)</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a>    plt2.ylabel(y_label)</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a>    plt2.title(<span class="ss">f'Heatmap of </span><span class="sc">{</span>z_label<span class="sc">}</span><span class="ss"> by </span><span class="sc">{</span>x_label<span class="sc">}</span><span class="ss"> and </span><span class="sc">{</span>y_label<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a>    plt2.show()</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a>create_heatmap(chd.PhysInactivity, chd.Poverty, chd.CHD, <span class="st">'PhysInactivity'</span>, <span class="st">'Poverty'</span>, <span class="st">'Avg. CHD'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="CHD%20Final%20Report_files/figure-html/cell-3-output-1.png" width="949" height="757"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="CHD%20Final%20Report_files/figure-html/cell-3-output-2.png" width="633" height="523"></p>
+</div>
+</div>
+<p>Next, we split the data into a training set and a test set. We trained SVM and Random Forest models using the training data, tuning their hyperparameters with GridSearchCV and RandomizedSearchCV respectively. In addition to these models, we also employed a k-means clustering algorithm to explore potential clusters in the dataset.</p>
+<p>Random Forest:</p>
+<div class="cell" data-execution_count="3">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> scipy.stats <span class="im">import</span> randint</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> OneHotEncoder, StandardScaler</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> GridSearchCV, RandomizedSearchCV</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.ensemble <span class="im">import</span> RandomForestClassifier</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>chd <span class="op">=</span> pd.read_csv(<span class="st">"data/CDC_python_clean.csv"</span>)</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co">### Drop unneeded columns</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>columns_to_drop <span class="op">=</span> [<span class="st">'fips'</span>, <span class="st">'CHD'</span>, <span class="st">'county'</span>,<span class="st">'UrbanRural'</span>]</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>chd <span class="op">=</span> chd.drop(columns<span class="op">=</span>columns_to_drop)</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co">### Establish X and y</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> chd.drop(columns<span class="op">=</span>[<span class="st">'CHD_Class'</span>])</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> chd[<span class="st">'CHD_Class'</span>]</span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="co">### Additional preprocessing</span></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the character columns that need to be dummy encoded</span></span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>char_cols <span class="op">=</span> X.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>]).columns</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a one-hot encoder and apply it to the character columns</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>encoder <span class="op">=</span> OneHotEncoder()</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>char_cols, drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale and Center</span></span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>numeric_columns <span class="op">=</span> X.select_dtypes(include<span class="op">=</span>[<span class="st">'float64'</span>, <span class="st">'int64'</span>]).columns</span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a>X[numeric_columns] <span class="op">=</span> scaler.fit_transform(X[numeric_columns])</span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a><span class="co">### Split data</span></span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>Xtrain, Xtest, ytrain, ytest <span class="op">=</span> train_test_split(X, y, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a><span class="co">### Establish Parameters</span></span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>rf_classifier <span class="op">=</span> RandomForestClassifier()</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>param_dist <span class="op">=</span> {</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>    <span class="st">'n_estimators'</span>: randint(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">'max_depth'</span>: randint(<span class="dv">1</span>, <span class="dv">50</span>),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_split'</span>: randint(<span class="dv">2</span>, <span class="dv">10</span>),</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    <span class="st">'min_samples_leaf'</span>: randint(<span class="dv">1</span>, <span class="dv">10</span>),</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a>    <span class="st">'bootstrap'</span>: [<span class="va">True</span>, <span class="va">False</span>],</span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>    <span class="st">'criterion'</span>: [<span class="st">'gini'</span>, <span class="st">'entropy'</span>]</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a><span class="co">### Additional Parameters</span></span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>random_search <span class="op">=</span> RandomizedSearchCV(</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    estimator<span class="op">=</span>rf_classifier,</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    param_distributions<span class="op">=</span>param_dist,</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>    n_iter<span class="op">=</span><span class="dv">50</span>,  <span class="co"># Adjust the number of iterations as needed</span></span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>    cv<span class="op">=</span><span class="dv">5</span>,        <span class="co"># Number of cross-validation folds</span></span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    n_jobs<span class="op">=-</span><span class="dv">1</span>,   <span class="co"># Use all available CPU cores for parallel processing</span></span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a><span class="co">#Model</span></span>
+<span id="cb4-57"><a href="#cb4-57" aria-hidden="true" tabindex="-1"></a>random_search.fit(Xtrain, ytrain)</span>
+<span id="cb4-58"><a href="#cb4-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-59"><a href="#cb4-59" aria-hidden="true" tabindex="-1"></a><span class="co">### Store best model</span></span>
+<span id="cb4-60"><a href="#cb4-60" aria-hidden="true" tabindex="-1"></a>best_rf_classifier <span class="op">=</span> random_search.best_estimator_</span>
+<span id="cb4-61"><a href="#cb4-61" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-62"><a href="#cb4-62" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> best_rf_classifier.score(Xtest, ytest)</span>
+<span id="cb4-63"><a href="#cb4-63" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy of the Random Forest Classifier: </span><span class="sc">{:.2f}</span><span class="st">%"</span>.<span class="bu">format</span>(accuracy <span class="op">*</span> <span class="dv">100</span>))</span>
+<span id="cb4-64"><a href="#cb4-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-65"><a href="#cb4-65" aria-hidden="true" tabindex="-1"></a><span class="co">#Feature Importance</span></span>
+<span id="cb4-66"><a href="#cb4-66" aria-hidden="true" tabindex="-1"></a>feature_importance_df <span class="op">=</span> pd.DataFrame({<span class="st">'Feature'</span>: X.columns, <span class="st">'Importance'</span>: best_rf_classifier.feature_importances_})</span>
+<span id="cb4-67"><a href="#cb4-67" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-68"><a href="#cb4-68" aria-hidden="true" tabindex="-1"></a>top_20_features <span class="op">=</span> feature_importance_df.nlargest(<span class="dv">50</span>, <span class="st">'Importance'</span>)</span>
+<span id="cb4-69"><a href="#cb4-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-70"><a href="#cb4-70" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-71"><a href="#cb4-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-72"><a href="#cb4-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a horizontal bar plot with rotated axes</span></span>
+<span id="cb4-73"><a href="#cb4-73" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">12</span>))</span>
+<span id="cb4-74"><a href="#cb4-74" aria-hidden="true" tabindex="-1"></a>plt.barh(top_20_features[<span class="st">'Feature'</span>], top_20_features[<span class="st">'Importance'</span>], color<span class="op">=</span><span class="st">'darkgreen'</span>)</span>
+<span id="cb4-75"><a href="#cb4-75" aria-hidden="true" tabindex="-1"></a>plt.gca().invert_yaxis()  <span class="co"># Invert the y-axis to show features at the top</span></span>
+<span id="cb4-76"><a href="#cb4-76" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Importance'</span>)</span>
+<span id="cb4-77"><a href="#cb4-77" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Feature'</span>)</span>
+<span id="cb4-78"><a href="#cb4-78" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Top 50 Variable Importance in Random Forest Classifier'</span>)</span>
+<span id="cb4-79"><a href="#cb4-79" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-80"><a href="#cb4-80" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb4-81"><a href="#cb4-81" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-82"><a href="#cb4-82" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-83"><a href="#cb4-83" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> confusion_matrix</span>
+<span id="cb4-84"><a href="#cb4-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-85"><a href="#cb4-85" aria-hidden="true" tabindex="-1"></a>ypred <span class="op">=</span> best_rf_classifier.predict(Xtest)</span>
+<span id="cb4-86"><a href="#cb4-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-87"><a href="#cb4-87" aria-hidden="true" tabindex="-1"></a>conf_matrix <span class="op">=</span> confusion_matrix(ytest, ypred)</span>
+<span id="cb4-88"><a href="#cb4-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-89"><a href="#cb4-89" aria-hidden="true" tabindex="-1"></a>class_names <span class="op">=</span> [<span class="st">'low'</span>, <span class="st">'medium'</span>, <span class="st">'high'</span>]</span>
+<span id="cb4-90"><a href="#cb4-90" aria-hidden="true" tabindex="-1"></a>conf_matrix_df <span class="op">=</span> pd.DataFrame(conf_matrix, index<span class="op">=</span>class_names, columns<span class="op">=</span>class_names)</span>
+<span id="cb4-91"><a href="#cb4-91" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-92"><a href="#cb4-92" aria-hidden="true" tabindex="-1"></a><span class="co">## Confussion matrix</span></span>
+<span id="cb4-93"><a href="#cb4-93" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> seaborn <span class="im">as</span> sns</span>
+<span id="cb4-94"><a href="#cb4-94" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-95"><a href="#cb4-95" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-96"><a href="#cb4-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Set the labels for the heatmap</span></span>
+<span id="cb4-97"><a href="#cb4-97" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'High'</span>,<span class="st">'Medium'</span>,<span class="st">'Low'</span>]</span>
+<span id="cb4-98"><a href="#cb4-98" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-99"><a href="#cb4-99" aria-hidden="true" tabindex="-1"></a><span class="co"># Create the heatmap</span></span>
+<span id="cb4-100"><a href="#cb4-100" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">6</span>, <span class="dv">4</span>))</span>
+<span id="cb4-101"><a href="#cb4-101" aria-hidden="true" tabindex="-1"></a>sns.heatmap(conf_matrix, annot<span class="op">=</span><span class="va">True</span>, fmt<span class="op">=</span><span class="st">"d"</span>, cmap<span class="op">=</span><span class="st">"Blues"</span>, xticklabels<span class="op">=</span>labels, yticklabels<span class="op">=</span>labels)</span>
+<span id="cb4-102"><a href="#cb4-102" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Predicted'</span>)</span>
+<span id="cb4-103"><a href="#cb4-103" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'True'</span>)</span>
+<span id="cb4-104"><a href="#cb4-104" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Confusion Matrix Heatmap'</span>)</span>
+<span id="cb4-105"><a href="#cb4-105" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb4-106"><a href="#cb4-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-107"><a href="#cb4-107" aria-hidden="true" tabindex="-1"></a><span class="co">### Split Urban Rural and Redo Analysis</span></span>
+<span id="cb4-108"><a href="#cb4-108" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> get_variable_importance(data):</span>
+<span id="cb4-109"><a href="#cb4-109" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Separate the target variable 'CHD_Class' from the features</span></span>
+<span id="cb4-110"><a href="#cb4-110" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> data.drop(columns<span class="op">=</span>[<span class="st">'CHD_Class'</span>])</span>
+<span id="cb4-111"><a href="#cb4-111" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> data[<span class="st">'CHD_Class'</span>]</span>
+<span id="cb4-112"><a href="#cb4-112" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-113"><a href="#cb4-113" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Get the character columns that need to be dummy encoded</span></span>
+<span id="cb4-114"><a href="#cb4-114" aria-hidden="true" tabindex="-1"></a>    char_cols <span class="op">=</span> X.select_dtypes(include<span class="op">=</span>[<span class="st">'object'</span>]).columns</span>
+<span id="cb4-115"><a href="#cb4-115" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-116"><a href="#cb4-116" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a one-hot encoder and apply it to the character columns</span></span>
+<span id="cb4-117"><a href="#cb4-117" aria-hidden="true" tabindex="-1"></a>    encoder <span class="op">=</span> OneHotEncoder()</span>
+<span id="cb4-118"><a href="#cb4-118" aria-hidden="true" tabindex="-1"></a>    X <span class="op">=</span> pd.get_dummies(X, columns<span class="op">=</span>char_cols, drop_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-119"><a href="#cb4-119" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-120"><a href="#cb4-120" aria-hidden="true" tabindex="-1"></a>    Xtrain, Xtest, ytrain, ytest <span class="op">=</span> train_test_split(X, y, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb4-121"><a href="#cb4-121" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-122"><a href="#cb4-122" aria-hidden="true" tabindex="-1"></a>    rf_classifier <span class="op">=</span> RandomForestClassifier()</span>
+<span id="cb4-123"><a href="#cb4-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-124"><a href="#cb4-124" aria-hidden="true" tabindex="-1"></a>    param_dist <span class="op">=</span> {</span>
+<span id="cb4-125"><a href="#cb4-125" aria-hidden="true" tabindex="-1"></a>        <span class="st">'n_estimators'</span>: randint(<span class="dv">1</span>, <span class="dv">1000</span>),</span>
+<span id="cb4-126"><a href="#cb4-126" aria-hidden="true" tabindex="-1"></a>        <span class="st">'max_depth'</span>: randint(<span class="dv">1</span>, <span class="dv">50</span>),</span>
+<span id="cb4-127"><a href="#cb4-127" aria-hidden="true" tabindex="-1"></a>        <span class="st">'min_samples_split'</span>: randint(<span class="dv">2</span>, <span class="dv">10</span>),</span>
+<span id="cb4-128"><a href="#cb4-128" aria-hidden="true" tabindex="-1"></a>        <span class="st">'min_samples_leaf'</span>: randint(<span class="dv">1</span>, <span class="dv">10</span>),</span>
+<span id="cb4-129"><a href="#cb4-129" aria-hidden="true" tabindex="-1"></a>        <span class="st">'bootstrap'</span>: [<span class="va">True</span>, <span class="va">False</span>],</span>
+<span id="cb4-130"><a href="#cb4-130" aria-hidden="true" tabindex="-1"></a>        <span class="st">'criterion'</span>: [<span class="st">'gini'</span>, <span class="st">'entropy'</span>]</span>
+<span id="cb4-131"><a href="#cb4-131" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb4-132"><a href="#cb4-132" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-133"><a href="#cb4-133" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-134"><a href="#cb4-134" aria-hidden="true" tabindex="-1"></a>    random_search <span class="op">=</span> RandomizedSearchCV(</span>
+<span id="cb4-135"><a href="#cb4-135" aria-hidden="true" tabindex="-1"></a>        estimator<span class="op">=</span>rf_classifier,</span>
+<span id="cb4-136"><a href="#cb4-136" aria-hidden="true" tabindex="-1"></a>        param_distributions<span class="op">=</span>param_dist,</span>
+<span id="cb4-137"><a href="#cb4-137" aria-hidden="true" tabindex="-1"></a>        n_iter<span class="op">=</span><span class="dv">50</span>,  <span class="co"># Adjust the number of iterations as needed</span></span>
+<span id="cb4-138"><a href="#cb4-138" aria-hidden="true" tabindex="-1"></a>        cv<span class="op">=</span><span class="dv">5</span>,        <span class="co"># Number of cross-validation folds</span></span>
+<span id="cb4-139"><a href="#cb4-139" aria-hidden="true" tabindex="-1"></a>        n_jobs<span class="op">=-</span><span class="dv">1</span>,   <span class="co"># Use all available CPU cores for parallel processing</span></span>
+<span id="cb4-140"><a href="#cb4-140" aria-hidden="true" tabindex="-1"></a>        random_state<span class="op">=</span><span class="dv">42</span>,</span>
+<span id="cb4-141"><a href="#cb4-141" aria-hidden="true" tabindex="-1"></a>        verbose<span class="op">=</span><span class="va">True</span></span>
+<span id="cb4-142"><a href="#cb4-142" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb4-143"><a href="#cb4-143" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-144"><a href="#cb4-144" aria-hidden="true" tabindex="-1"></a>    random_search.fit(Xtrain, ytrain)</span>
+<span id="cb4-145"><a href="#cb4-145" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-146"><a href="#cb4-146" aria-hidden="true" tabindex="-1"></a>    best_rf_classifier <span class="op">=</span> random_search.best_estimator_</span>
+<span id="cb4-147"><a href="#cb4-147" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-148"><a href="#cb4-148" aria-hidden="true" tabindex="-1"></a>    accuracy <span class="op">=</span> best_rf_classifier.score(Xtest, ytest)</span>
+<span id="cb4-149"><a href="#cb4-149" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Accuracy of the Random Forest Classifier: </span><span class="sc">{:.2f}</span><span class="st">%"</span>.<span class="bu">format</span>(accuracy <span class="op">*</span> <span class="dv">100</span>))</span>
+<span id="cb4-150"><a href="#cb4-150" aria-hidden="true" tabindex="-1"></a>    </span>
+<span id="cb4-151"><a href="#cb4-151" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create a DataFrame to store the feature names and their corresponding importance scores</span></span>
+<span id="cb4-152"><a href="#cb4-152" aria-hidden="true" tabindex="-1"></a>    feature_importance_df <span class="op">=</span> pd.DataFrame({<span class="st">'Feature'</span>: X.columns, <span class="st">'Importance'</span>: best_rf_classifier.feature_importances_})</span>
+<span id="cb4-153"><a href="#cb4-153" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-154"><a href="#cb4-154" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Sort the DataFrame in descending order based on importance</span></span>
+<span id="cb4-155"><a href="#cb4-155" aria-hidden="true" tabindex="-1"></a>    feature_importance_df.sort_values(by<span class="op">=</span><span class="st">'Importance'</span>, ascending<span class="op">=</span><span class="va">False</span>, inplace<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-156"><a href="#cb4-156" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-157"><a href="#cb4-157" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> feature_importance_df</span>
+<span id="cb4-158"><a href="#cb4-158" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb4-159"><a href="#cb4-159" aria-hidden="true" tabindex="-1"></a><span class="co"># Create separate datasets for IsRural=True and IsRural=False</span></span>
+<span id="cb4-160"><a href="#cb4-160" aria-hidden="true" tabindex="-1"></a>data_rural <span class="op">=</span> chd[chd[<span class="st">'IsRural'</span>] <span class="op">==</span> <span class="va">True</span>]</span>
+<span id="cb4-161"><a href="#cb4-161" aria-hidden="true" tabindex="-1"></a>data_non_rural <span class="op">=</span> chd[chd[<span class="st">'IsRural'</span>] <span class="op">==</span> <span class="va">False</span>]</span>
+<span id="cb4-162"><a href="#cb4-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-163"><a href="#cb4-163" aria-hidden="true" tabindex="-1"></a><span class="co"># Get variable importance for IsRural=True</span></span>
+<span id="cb4-164"><a href="#cb4-164" aria-hidden="true" tabindex="-1"></a>result_rural <span class="op">=</span> get_variable_importance(data_rural)</span>
+<span id="cb4-165"><a href="#cb4-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-166"><a href="#cb4-166" aria-hidden="true" tabindex="-1"></a><span class="co"># Get variable importance for IsRural=False</span></span>
+<span id="cb4-167"><a href="#cb4-167" aria-hidden="true" tabindex="-1"></a>result_non_rural <span class="op">=</span> get_variable_importance(data_non_rural)</span>
+<span id="cb4-168"><a href="#cb4-168" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-169"><a href="#cb4-169" aria-hidden="true" tabindex="-1"></a><span class="co"># Add a new column to each DataFrame to indicate the dataset (IsRural=True or IsRural=False)</span></span>
+<span id="cb4-170"><a href="#cb4-170" aria-hidden="true" tabindex="-1"></a>result_rural[<span class="st">'Dataset'</span>] <span class="op">=</span> <span class="st">'IsRural=True'</span></span>
+<span id="cb4-171"><a href="#cb4-171" aria-hidden="true" tabindex="-1"></a>result_non_rural[<span class="st">'Dataset'</span>] <span class="op">=</span> <span class="st">'IsRural=False'</span></span>
+<span id="cb4-172"><a href="#cb4-172" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-173"><a href="#cb4-173" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenate the two DataFrames into a single DataFrame</span></span>
+<span id="cb4-174"><a href="#cb4-174" aria-hidden="true" tabindex="-1"></a>combined_result <span class="op">=</span> pd.concat([result_rural, result_non_rural,], ignore_index<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb4-175"><a href="#cb4-175" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-176"><a href="#cb4-176" aria-hidden="true" tabindex="-1"></a>combined_result <span class="op">=</span> combined_result[combined_result[<span class="st">'Importance'</span>] <span class="op">&gt;</span> <span class="fl">0.01</span>]</span>
+<span id="cb4-177"><a href="#cb4-177" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-178"><a href="#cb4-178" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a bar plot with rotated axes</span></span>
+<span id="cb4-179"><a href="#cb4-179" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">10</span>, <span class="dv">10</span>))</span>
+<span id="cb4-180"><a href="#cb4-180" aria-hidden="true" tabindex="-1"></a>sns.barplot(x<span class="op">=</span><span class="st">'Importance'</span>, y<span class="op">=</span><span class="st">'Feature'</span>, hue<span class="op">=</span><span class="st">'Dataset'</span>, data<span class="op">=</span>combined_result)</span>
+<span id="cb4-181"><a href="#cb4-181" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Importance'</span>)</span>
+<span id="cb4-182"><a href="#cb4-182" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Feature'</span>)</span>
+<span id="cb4-183"><a href="#cb4-183" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Variable Importance Comparison between IsRural=True and IsRural=False'</span>)</span>
+<span id="cb4-184"><a href="#cb4-184" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">'Dataset'</span>, loc<span class="op">=</span><span class="st">'lower right'</span>)</span>
+<span id="cb4-185"><a href="#cb4-185" aria-hidden="true" tabindex="-1"></a>plt.tight_layout()</span>
+<span id="cb4-186"><a href="#cb4-186" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Fitting 5 folds for each of 50 candidates, totalling 250 fits
+Accuracy of the Random Forest Classifier: 89.43%
+Fitting 5 folds for each of 50 candidates, totalling 250 fits
+Accuracy of the Random Forest Classifier: 88.46%
+Fitting 5 folds for each of 50 candidates, totalling 250 fits
+Accuracy of the Random Forest Classifier: 89.04%</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="CHD%20Final%20Report_files/figure-html/cell-4-output-2.png" width="757" height="1140"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="CHD%20Final%20Report_files/figure-html/cell-4-output-3.png" width="489" height="376"></p>
+</div>
+<div class="cell-output cell-output-display">
+<p><img src="CHD%20Final%20Report_files/figure-html/cell-4-output-4.png" width="949" height="948"></p>
+</div>
+</div>
+<p>K-Means:</p>
+<div class="cell" data-execution_count="4">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.read_csv(<span class="st">'data/CDC_python_clean.csv'</span>)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> df.loc[df.CHD <span class="op">&gt;</span> <span class="dv">0</span>]</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="co">### Selecting columns</span></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.preprocessing <span class="im">import</span> StandardScaler</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Select numerical columns</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>numerical_cols <span class="op">=</span> df.select_dtypes(include<span class="op">=</span>[<span class="st">'float64'</span>, <span class="st">'int64'</span>]).columns</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Remove the 'fips' column as it's a unique identifier, not a meaningful numerical feature</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>numerical_cols <span class="op">=</span> numerical_cols.drop(<span class="st">'fips'</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Subset the dataframe on these columns</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>df_numerical <span class="op">=</span> df[numerical_cols]</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize the data</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>scaler <span class="op">=</span> StandardScaler()</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>df_normalized <span class="op">=</span> pd.DataFrame(scaler.fit_transform(df_numerical), columns<span class="op">=</span>df_numerical.columns)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>df_normalized.head()</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="co">### Determining how many clusters to use</span></span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.cluster <span class="im">import</span> KMeans</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a><span class="co"># Set a range of clusters to try out</span></span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>clusters_range <span class="op">=</span> <span class="bu">range</span>(<span class="dv">2</span>, <span class="dv">15</span>)</span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a><span class="co"># List to hold the inertia for each number of clusters</span></span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>inertias <span class="op">=</span> []</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform K-means for each number of clusters and store the inertia</span></span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> num_clusters <span class="kw">in</span> clusters_range:</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>    kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span>num_clusters, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>    kmeans.fit(df_normalized)</span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>    inertias.append(kmeans.inertia_)</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot the elbow plot</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">6</span>))</span>
+<span id="cb6-45"><a href="#cb6-45" aria-hidden="true" tabindex="-1"></a>plt.plot(clusters_range, inertias, <span class="st">'bo-'</span>)</span>
+<span id="cb6-46"><a href="#cb6-46" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">'Number of Clusters'</span>)</span>
+<span id="cb6-47"><a href="#cb6-47" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">'Inertia'</span>)</span>
+<span id="cb6-48"><a href="#cb6-48" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">'Elbow Method For Optimal Number of Clusters'</span>)</span>
+<span id="cb6-49"><a href="#cb6-49" aria-hidden="true" tabindex="-1"></a>plt.grid(<span class="va">True</span>)</span>
+<span id="cb6-50"><a href="#cb6-50" aria-hidden="true" tabindex="-1"></a>plt.show()</span>
+<span id="cb6-51"><a href="#cb6-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-52"><a href="#cb6-52" aria-hidden="true" tabindex="-1"></a><span class="co"># The Elbow Method plot shows the inertia (sum of squared distances to the nearest cluster center) as a function of the number of clusters. From the plot, it's not entirely clear where the "elbow" is, as there isn't a sharp bend. This often happens with real-world data, which may not have well-separated clusters. However, we can see that the inertia starts to decrease at a slower rate from around 4 clusters onwards. Therefore, we'll choose 4 as the number of clusters for our K-means clustering.</span></span>
+<span id="cb6-53"><a href="#cb6-53" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-54"><a href="#cb6-54" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform K-means clustering with 4 clusters</span></span>
+<span id="cb6-55"><a href="#cb6-55" aria-hidden="true" tabindex="-1"></a>kmeans <span class="op">=</span> KMeans(n_clusters<span class="op">=</span><span class="dv">4</span>, random_state<span class="op">=</span><span class="dv">42</span>)</span>
+<span id="cb6-56"><a href="#cb6-56" aria-hidden="true" tabindex="-1"></a>kmeans.fit(df_normalized)</span>
+<span id="cb6-57"><a href="#cb6-57" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-58"><a href="#cb6-58" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the cluster assignments for each data point</span></span>
+<span id="cb6-59"><a href="#cb6-59" aria-hidden="true" tabindex="-1"></a>cluster_assignments <span class="op">=</span> kmeans.labels_</span>
+<span id="cb6-60"><a href="#cb6-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-61"><a href="#cb6-61" aria-hidden="true" tabindex="-1"></a><span class="co"># Add the cluster assignments back to the original DataFrame</span></span>
+<span id="cb6-62"><a href="#cb6-62" aria-hidden="true" tabindex="-1"></a>df[<span class="st">'Cluster'</span>] <span class="op">=</span> cluster_assignments</span>
+<span id="cb6-63"><a href="#cb6-63" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-64"><a href="#cb6-64" aria-hidden="true" tabindex="-1"></a>df.head()</span>
+<span id="cb6-65"><a href="#cb6-65" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-66"><a href="#cb6-66" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the mean values of our features within each cluster</span></span>
+<span id="cb6-67"><a href="#cb6-67" aria-hidden="true" tabindex="-1"></a>cluster_characteristics <span class="op">=</span> df.groupby(<span class="st">'Cluster'</span>).mean()</span>
+<span id="cb6-68"><a href="#cb6-68" aria-hidden="true" tabindex="-1"></a>cluster_characteristics.transpose()</span>
+<span id="cb6-69"><a href="#cb6-69" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-70"><a href="#cb6-70" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.metrics <span class="im">import</span> silhouette_score</span>
+<span id="cb6-71"><a href="#cb6-71" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-72"><a href="#cb6-72" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the silhouette score</span></span>
+<span id="cb6-73"><a href="#cb6-73" aria-hidden="true" tabindex="-1"></a>sil_score <span class="op">=</span> silhouette_score(df_normalized, cluster_assignments)</span>
+<span id="cb6-74"><a href="#cb6-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-75"><a href="#cb6-75" aria-hidden="true" tabindex="-1"></a>sil_score</span>
+<span id="cb6-76"><a href="#cb6-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-77"><a href="#cb6-77" aria-hidden="true" tabindex="-1"></a><span class="co"># The silhouette score for our clustering is approximately 0.167. This score is relatively low, indicating that the clusters are not very clearly separated and that the samples within each cluster are not extremely dense. This is not surprising considering that we have used a high-dimensional dataset with many features, which can make it challenging to form distinct clusters.</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-display">
+<p><img src="CHD%20Final%20Report_files/figure-html/cell-5-output-1.png" width="693" height="523"></p>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="4">
+<pre><code>0.16659025768870228</code></pre>
+</div>
+</div>
+<p>SVM:</p>
+<p>The performance of the SVM and Random Forest models was evaluated based on accuracy on the test data, while the k-means clustering results were assessed visually and qualitatively.</p>
+<div class="cell" data-execution_count="5">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>accuracy <span class="op">=</span> best_rf_classifier.score(Xtest, ytest)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Accuracy of the Random Forest Classifier: </span><span class="sc">{:.2f}</span><span class="st">%"</span>.<span class="bu">format</span>(accuracy <span class="op">*</span> <span class="dv">100</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Accuracy of the Random Forest Classifier: 89.43%</code></pre>
+</div>
+</div>
+<p>Here is the Python code used for preprocessing and model training:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Python code for preprocessing and model training</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="co"># ... (Insert preprocessing and model training code here) ...</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</section>
+<section id="results" class="level2">
+<h2 class="anchored" data-anchor-id="results"><strong>Results:</strong></h2>
+<p>Through our exploratory data analysis, we found interesting patterns and distributions in the data, such as… (insert findings here).</p>
+<p>Our machine learning models yielded promising results. The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset. The k-means clustering revealed… (insert clustering results here).</p>
+<p>The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset.</p>
+</section>
+<section id="discussions-and-implications" class="level2">
+<h2 class="anchored" data-anchor-id="discussions-and-implications"><strong>Discussions and Implications:</strong></h2>
+<p>The difference in performance between the SVM and Random Forest models could be attributed to the specific properties of these algorithms. SVMs tend to perform well on high-dimensional data, while Random Forests are often better suited for datasets with a mix of categorical and numerical features. The k-means clustering results provide additional insights into the structure of the dataset, potentially informing feature engineering and selection processes.</p>
+<p>These findings highlight the potential of machine learning in aiding the prediction of Coronary Heart Disease, which could have significant implications for early intervention and treatment planning.</p>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion"><strong>Conclusion:</strong></h2>
+<p>In conclusion, our project demonstrates the feasibility and potential of using machine learning for predicting Coronary Heart Disease. The findings suggest that machine learning, and specifically SVM, can provide a valuable tool in the field of health informatics. Future work could explore other algorithms, feature engineering techniques, and larger or more diverse datasets to further improve prediction performance.These findings suggest that machine learning can be a valuable tool in health informatics, providing insights that can aid in early disease prediction and intervention.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references"><strong>References:</strong></h2>
+<ol type="1">
+<li>Scikit-learn: Machine Learning in Python (https://scikit-learn.org/stable/index.html)</li>
+<li>CDC Dataset (Link to CDC Dataset)</li>
+</ol>
+</section>
+<section id="appendix-list-of-contributors" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-list-of-contributors"><strong>Appendix: List of Contributors</strong></h2>
+<ol type="1">
+<li>Hans LehnDorff - <a href="Your%20LinkedIn%20URL">LinkedIn</a></li>
+<li>Isaac Johnson - <a href="Your%20LinkedIn%20URL">LinkedIn</a></li>
+<li>Jesse Debolt - <a href="Your%20LinkedIn%20URL">LinkedIn</a></li>
+</ol>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
