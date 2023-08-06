@@ -722,11 +722,11 @@ In conclusion, our project demonstrates the feasibility and potential of using m
 
 ## **References:**
 
-1.  Scikit-learn: Machine Learning in Python (https://scikit-learn.org/stable/index.html)
-2.  CDC Dataset (Link to CDC Dataset)
+1.  Scikit-learn: Machine Learning in Python [Scikit-learn](https://scikit-learn.org/stable/index.html)
+2.  CDC Dataset [CDC Data](https://nccd.cdc.gov/DHDSPAtlas/?state=County)
 
 ## **Appendix: List of Contributors**
 
-1.  Hans LehnDorff - [LinkedIn](www.linkedin.com/in/hans-lehndorff/)
-2.  Isaac Johnson - [LinkedIn](www.linkedin.com/in/isaacajohnson)
-3.  Jesse Debolt - [LinkedIn](www.linkedin.com/in/jessedebolt/)
+1.  Hans LehnDorff - [LinkedIn](https://www.linkedin.com/in/hans-lehndorff/)
+2.  Isaac Johnson - [LinkedIn](https://www.linkedin.com/in/isaacajohnson)
+3.  Jesse Debolt - [LinkedIn](https://www.linkedin.com/in/jessedebolt/)
