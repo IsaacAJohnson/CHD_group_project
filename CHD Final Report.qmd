@@ -6,7 +6,10 @@ author:
 date: "August 1, 2023"
 date-format: "long"
 course: DATA599 - Python Final Project
-format: html
+format:
+  html:
+    code-fold: true
+    code-summary: "Show the code"
 editor: visual
 embed-resources: true
 ---
@@ -24,7 +27,7 @@ Coronary Heart Disease is a leading cause of death globally. Early prediction of
 ## **Research Questions:**
 
 1.  Can we predict the presence of Coronary Heart Disease using health and demographic data?
-2.  How well do SVM, Random Forest, and k-means clustering algorithms perform in predicting CHD?
+2.  How we'll do SVM, Random Forest, and k-means clustering algorithms perform in predicting CHD?
 3.  Which features are most predictive of CHD according to our models?
 
 ## **Methodology:**
@@ -572,33 +575,140 @@ sil_score
 # The silhouette score for our clustering is approximately 0.167. This score is relatively low, indicating that the clusters are not very clearly separated and that the samples within each cluster are not extremely dense. This is not surprising considering that we have used a high-dimensional dataset with many features, which can make it challenging to form distinct clusters.
 ```
 
-SVM:
+SVC:
 
 ```{python}
+
+import pandas as pd
+from sklearn.preprocessing import StandardScaler, OneHotEncoder
+
+# Load data
+chd = pd.read_csv("data/CDC_python_clean.csv")
+
+# Drop unnecessary columns
+columns_to_drop = ['fips', 'CHD', 'county', 'UrbanRural']
+chd = chd.drop(columns=columns_to_drop)
+
+# Define features and target
+X = chd.drop(columns=['CHD_Class'])
+y = chd['CHD_Class']
+
+# One-hot encode categorical variables
+char_cols = X.select_dtypes(include=['object']).columns
+X = pd.get_dummies(X, columns=char_cols, drop_first=True)
+
+# Scale numerical variables
+numeric_columns = X.select_dtypes(include=['float64', 'int64']).columns
+scaler = StandardScaler()
+X[numeric_columns] = scaler.fit_transform(X[numeric_columns])
+
+X.head(), y.head()
+
+# Splitting the data
+
+from sklearn.model_selection import train_test_split
+
+# Split data into train and test sets
+Xtrain, Xtest, ytrain, ytest = train_test_split(X, y, random_state=42)
+
+Xtrain.shape, Xtest.shape
+
+#Model Building and Hyperparameter Tuning
+
+from sklearn.model_selection import GridSearchCV
+from sklearn.svm import SVC
+
+# Define the SVC classifier
+svc = SVC(kernel='linear')
+
+# Define the parameter grid for the GridSearchCV
+param_grid = {
+    'C': [0.1, 1],
+}
+
+# Define the GridSearchCV for hyperparameter tuning
+grid_search = GridSearchCV(
+    estimator=svc,
+    param_grid=param_grid,
+    cv=5,        # Number of cross-validation folds
+    n_jobs=-1,   # Use all available CPU cores for parallel processing
+    verbose=True
+)
+
+# Fit the GridSearchCV to the training data
+grid_search.fit(Xtrain, ytrain)
+
+# Model Evaluation
+
+from sklearn.metrics import accuracy_score
+
+# Get the best SVC classifier
+best_svc = grid_search.best_estimator_
+
+# Predict the test set results
+svc_pred = best_svc.predict(Xtest)
+
+# Compute the accuracy of the SVC classifier
+svc_accuracy = accuracy_score(ytest, svc_pred)
+
+svc_accuracy
+
+# Feature Importance Plot
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+# Get feature importances (use absolute values of coefficients as proxy)
+importances = abs(best_svc.coef_[0])
+
+# Get top 10 features
+indices = np.argsort(importances)[-10:]
+
+plt.figure(figsize=(12, 8))
+plt.title('Feature Importances')
+plt.barh(range(len(indices)), importances[indices], color='b', align='center')
+plt.yticks(range(len(indices)), [X.columns[i] for i in indices])
+plt.xlabel('Relative Importance')
+plt.show()
+
+# Confusion Matrix and Plot
+# Import the required libraries
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Use the sklearn function confusion_matrix to compute the confusion matrix
+svc_cm = confusion_matrix(ytest, svc_pred)
+
+# Using seaborn to create a heatmap. The heatmap will visually represent the confusion matrix
+# Each cell in the heatmap corresponds to a cell in the confusion matrix.
+# The color of the cell is proportional to the number of instances.
+sns.heatmap(svc_cm, annot=True, fmt='d')
+
+# Label the x-axis as 'Predicted'
+plt.xlabel('Predicted')
+
+# Label the y-axis as 'True'
+plt.ylabel('True')
 
 ```
 
 The performance of the SVM and Random Forest models was evaluated based on accuracy on the test data, while the k-means clustering results were assessed visually and qualitatively.
 
 ```{python}
+svc_accuracy = accuracy_score(ytest, svc_pred)
+print("Accuracy of the Support Vector Classifier: {:.2f}%".format(svc_accuracy * 100))
 accuracy = best_rf_classifier.score(Xtest, ytest)
 print("Accuracy of the Random Forest Classifier: {:.2f}%".format(accuracy * 100))
-```
+sil_score = silhouette_score(df_normalized, cluster_assignments)
+print("Accuracy of the K-Means Cluster: {:.2f}%".format(sil_score * 100))
 
-Here is the Python code used for preprocessing and model training:
-
-``` python
-# Python code for preprocessing and model training
-# ... (Insert preprocessing and model training code here) ...
 ```
 
 ## **Results:**
 
-Through our exploratory data analysis, we found interesting patterns and distributions in the data, such as... (insert findings here).
+Through our exploratory data analysis, we found interesting patterns and distributions in the data, such as, you can see a positive correlation between coronary heart disease (CHD) and people who smoke, and with people who have had a stroke. Also see that as poverty rates increase there is an association that prevalence of CHD also goes up.  When you look at median household income, as income rises prevalence of coronary heart disease goes down. 
 
-Our machine learning models yielded promising results. The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset. The k-means clustering revealed... (insert clustering results here).
-
-The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset.
+Our machine learning models yielded promising results. The SVM model achieved an accuracy of approximately 92.1%, while the Random Forest model achieved an accuracy of approximately 89.4%. Therefore, the SVM model performed slightly better on this dataset. The k-means clustering shows a silhouette score of approximately 0.167. This score is relatively low, indicating that the clusters are not very clearly separated and that the samples within each cluster are not extremely dense. This is not surprising considering that we have used a high-dimensional dataset with many features, which can make it challenging to form distinct clusters..
 
 ## **Discussions and Implications:**
 
@@ -617,6 +727,6 @@ In conclusion, our project demonstrates the feasibility and potential of using m
 
 ## **Appendix: List of Contributors**
 
-1.  Hans LehnDorff - [LinkedIn](Your%20LinkedIn%20URL)
-2.  Isaac Johnson - [LinkedIn](Your%20LinkedIn%20URL)
-3.  Jesse Debolt - [LinkedIn](Your%20LinkedIn%20URL)
+1.  Hans LehnDorff - [LinkedIn](www.linkedin.com/in/hans-lehndorff/)
+2.  Isaac Johnson - [LinkedIn](www.linkedin.com/in/isaacajohnson)
+3.  Jesse Debolt - [LinkedIn](www.linkedin.com/in/jessedebolt/)
